@@ -1,48 +1,52 @@
 package ru.netology
 
+const val MINUTE: Int = 60
+const val HOUR: Int = 3600
+const val DAY: Int = 86400
+
 fun main() {
-    val timeAgo = 97200
-    agoToText(timeAgo)
+    val timeAgo = 54000
+    println("Пользователь был(а) " + agoToText(timeAgo))
 }
 
-fun timeText(time: Int): String {
+fun agoToText(time: Int): String {
     return when {
-        time < 60 -> "только что"
-        time < (60 * 60) -> "" + secondsConvert(time) + " " + minutesSpell(secondsConvert(time)) + " назад"
-        time < (24 * 60 * 60) -> "" + secondsConvert(time) + " " + hoursSpell(secondsConvert(time)) + " назад"
-        time < (48 * 60 * 60) -> "сегодня"
-        time < (72 * 60 * 60) -> "вчера"
+        time < MINUTE -> "только что"
+        time < HOUR -> "${minutesConvert(time)} ${minutesSpell(minutesConvert(time))} назад"
+        time < DAY -> "${hoursConvert(time)} ${hoursSpell(hoursConvert(time))} назад"
+        time < (DAY * 2) -> "сегодня"
+        time < (DAY * 3) -> "вчера"
         else -> "давно"
     }
 }
 
-fun agoToText(time: Int) {
-    println("Пользователь был(а) " + timeText(time))
+fun minutesConvert(time: Int): Int {
+    return when {
+        time < HOUR -> time / 60
+        else -> 0
+    }
 }
 
-fun secondsConvert(time: Int): Int {
+fun hoursConvert(time: Int): Int {
     return when {
-        time < 3600 -> time / 60
-        time < (24 * 3600) -> time / 3600
+        time < DAY -> time / HOUR
         else -> 0
     }
 }
 
 fun minutesSpell(time: Int): String {
-    return when (time) {
-        1,21,31,41,51 -> "минуту"
-        in 2..4, in 22..24, in 32..34, in 42..44, in 52..54 -> "минуты"
-        in 5..20, in 25..30, in 35..40, in 45..50, in 55..59 -> "минут"
-        else -> ""
+    return when {
+        (time % 10) == 1 && (time % 100) != 11 -> "минуту"
+        (time % 10) >= 2 && (time % 10) <= 4 && (time % 100 < 10 || time % 100 >= 20) -> "минуты"
+        else -> "минут"
     }
 }
 
 fun hoursSpell(time: Int): String {
-    return when (time) {
-        1,21,31,41 -> "час"
-        in 2..4,in 22..24,in 32..34, in 42..44 -> "часа"
-        in 5..20, in 25..30, in 35..40, in 45..47 -> "часов"
-        else -> ""
+    return when {
+        (time % 10) == 1 && (time % 100) != 11 -> "час"
+        (time % 10) >= 2 && (time % 10) <= 4 && (time % 100 < 10 || time % 100 >= 20) -> "часа"
+        else -> "часов"
     }
 }
 
