@@ -83,6 +83,6 @@ class Main2KtTest {
             monthlyAmount = monthlyAmount
         )
         //Assert
-        assertEquals(3825, fee)
+        assertEquals(3815, fee)
     }
 }
