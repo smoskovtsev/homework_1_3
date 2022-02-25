@@ -3,36 +3,42 @@ package ru.netology
 const val MINUTE: Int = 60
 const val HOUR: Int = 3600
 const val DAY: Int = 86400
+const val TWO_DAYS: Int = DAY * 2
+const val THREE_DAYS: Int = DAY * 3
 
 fun main() {
-    val timeAgo = 54000
+    val timeAgo = 18000
     println("Пользователь был(а) " + agoToText(timeAgo))
 }
 
 fun agoToText(time: Int): String {
     return when {
         time < MINUTE -> "только что"
-        time < HOUR -> "${minutesConvert(time)} ${minutesSpell(minutesConvert(time))} назад"
-        time < DAY -> "${hoursConvert(time)} ${hoursSpell(hoursConvert(time))} назад"
-        time < (DAY * 2) -> "сегодня"
-        time < (DAY * 3) -> "вчера"
+        time < HOUR -> {
+            val timeConvert = time / MINUTE
+            "$timeConvert ${minutesSpell(timeConvert)} назад"
+        }
+        time < DAY -> {
+            val timeConvert = time / HOUR
+            "$timeConvert ${hoursSpell(timeConvert)} назад"
+        }
+        time < (TWO_DAYS) -> "сегодня"
+        time < (THREE_DAYS) -> "вчера"
         else -> "давно"
     }
 }
 
-fun minutesConvert(time: Int): Int {
-    return when {
-        time < HOUR -> time / 60
-        else -> 0
-    }
-}
+//fun timeConvert(time: Int): Int {
+//    return if (time < HOUR) (time / MINUTE) else (time / HOUR)
+//}
 
-fun hoursConvert(time: Int): Int {
-    return when {
-        time < DAY -> time / HOUR
-        else -> 0
-    }
-}
+//fun hoursConvert(time: Int): Int {
+//    return if (time < DAY) (time / HOUR)
+//    return when {
+//        time < DAY -> time / HOUR
+//        else -> 0
+//    }
+//}
 
 fun minutesSpell(time: Int): String {
     return when {
