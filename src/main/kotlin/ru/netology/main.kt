@@ -15,12 +15,12 @@ fun agoToText(time: Int): String {
     return when {
         time < MINUTE -> "только что"
         time < HOUR -> {
-            val timeConvert = time / MINUTE
-            "$timeConvert ${minutesSpell(timeConvert)} назад"
+            val amount = time / MINUTE
+            "$amount ${spell(amount, "минуту", "минуты", "минут")} назад"
         }
         time < DAY -> {
-            val timeConvert = time / HOUR
-            "$timeConvert ${hoursSpell(timeConvert)} назад"
+            val amount = time / HOUR
+            "$amount ${spell(amount, "час", "часа", "часов")} назад"
         }
         time < (TWO_DAYS) -> "сегодня"
         time < (THREE_DAYS) -> "вчера"
@@ -28,31 +28,11 @@ fun agoToText(time: Int): String {
     }
 }
 
-//fun timeConvert(time: Int): Int {
-//    return if (time < HOUR) (time / MINUTE) else (time / HOUR)
-//}
-
-//fun hoursConvert(time: Int): Int {
-//    return if (time < DAY) (time / HOUR)
-//    return when {
-//        time < DAY -> time / HOUR
-//        else -> 0
-//    }
-//}
-
-fun minutesSpell(time: Int): String {
+fun spell(amount: Int, one: String, few: String, many: String): String {
     return when {
-        (time % 10) == 1 && (time % 100) != 11 -> "минуту"
-        (time % 10) >= 2 && (time % 10) <= 4 && (time % 100 < 10 || time % 100 >= 20) -> "минуты"
-        else -> "минут"
-    }
-}
-
-fun hoursSpell(time: Int): String {
-    return when {
-        (time % 10) == 1 && (time % 100) != 11 -> "час"
-        (time % 10) >= 2 && (time % 10) <= 4 && (time % 100 < 10 || time % 100 >= 20) -> "часа"
-        else -> "часов"
+        (amount % 10) == 1 && (amount % 100) != 11 -> one
+        (amount % 10) >= 2 && (amount % 10) <= 4 && (amount % 100 < 10 || amount % 100 >= 20) -> few
+        else -> many
     }
 }
 

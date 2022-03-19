@@ -7,7 +7,7 @@ const val VISA_MIR_FEE_VAR: Double = 0.0075
 const val VISA_MIR_FEE_MIN: Int = 35_00
 
 fun main() {
-    val transferAmount = 3100_00
+    val transferAmount = 5100_00
     val feeAmount = calculateFee(transferAmount)
     println("Сумма перевода: $transferAmount копеек")
     println("Сумма комиссии: $feeAmount копеек")
@@ -22,8 +22,8 @@ fun calculateFee (
         "VK" -> 0
         "MasterCard","Maestro" -> if (monthlyAmount < MASTER_MAESTRO_FEE_NO_LIMIT) 0 else ((transferAmount * MASTER_MAESTRO_FEE_VAR).toInt() + MASTER_MAESTRO_FEE_FIX)
         "Visa","Mir" -> {
-            val visaMirFeeThreshold = transferAmount * VISA_MIR_FEE_VAR
-            if (visaMirFeeThreshold < VISA_MIR_FEE_MIN) VISA_MIR_FEE_MIN else (visaMirFeeThreshold.toInt())
+            val visaMirFeeThreshold = (transferAmount * VISA_MIR_FEE_VAR).toInt()
+            if (visaMirFeeThreshold < VISA_MIR_FEE_MIN) VISA_MIR_FEE_MIN else visaMirFeeThreshold
         }
             else -> error("Неподдерживаемый тип счёта: $accountType")
     }
